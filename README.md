@@ -8,6 +8,10 @@ hardware que suelen encontrarse en cualquier BSP tales como: leds, pulsadores, r
 ## Changelog
 
 ----------------------------------------------------------------------------------------------
+##### 26.09.2017 ->commit:"Añado SpiFlashBlockDevice"
+- [x] Añado el driver para controlar una spi flash NOR
+
+----------------------------------------------------------------------------------------------
 ##### 25.09.2017 ->commit:"Añado Shifter, Stepper y PirDetector"
 - [x] Añado nuevos drivers
 
