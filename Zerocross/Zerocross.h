@@ -72,7 +72,7 @@ class Zerocross{
     void isrFallCallback();  
   
 };
-     
+
 
 
 #endif /*__Zerocross__H */
