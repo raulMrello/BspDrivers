@@ -8,6 +8,14 @@ hardware que suelen encontrarse en cualquier BSP tales como: leds, pulsadores, r
 ## Changelog
 
 ----------------------------------------------------------------------------------------------
+##### 26.10.2017 ->commit:"Incluyo SpiDmaInterface"
+- [x] Incluyo este módulo que permite utilizar un canal SPI mediante transferencias DMA. Es capaz
+	  de enviar, recibir y enviar&recibir. Para lo que se deben instalar las callbacks correspondientes
+	  para las interrupciones dma_half_transfer, dma_complete_transfer, dma_error_transfer y 
+	  dma_abort_transfer.
+	  El módulo se ha verificado en la tarjeta NUCLEO_L432KC
+
+----------------------------------------------------------------------------------------------
 ##### 04.10.2017 ->commit:"Modifico Led"
 - [x] Simplifico funciones pública Led más intuitivas
 
