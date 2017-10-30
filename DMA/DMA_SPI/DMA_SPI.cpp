@@ -1,11 +1,11 @@
 /*
- * SpiDmaInterface.cpp
+ * DMA_SPI.cpp
  *
  *  Created on: Oct 2017
  *      Author: raulMrello
  */
 
-#include "SpiDmaInterface.h"
+#include "DMA_SPI.h"
 
 
 
@@ -13,9 +13,8 @@
 //- STATIC ---------------------------------------------------------------------------
 //------------------------------------------------------------------------------------
 
-
-static SpiDmaInterface* spi1Dma;    /// Manejador estático del periférico SPI1
-static SpiDmaInterface* spi3Dma;    /// Manejador estático del periférico SPI3
+static DMA_SPI* spi1Dma;
+static DMA_SPI* spi3Dma;
 
 
 
@@ -25,35 +24,13 @@ static SpiDmaInterface* spi3Dma;    /// Manejador estático del periférico SPI3
 
 
 //------------------------------------------------------------------------------------
-void DMA1_Channel2_IRQHandler(void){
-  HAL_DMA_IRQHandler((spi1Dma->getHandler())->hdmarx);
-}
-
-
-//------------------------------------------------------------------------------------
-void DMA1_Channel3_IRQHandler(void){
-  HAL_DMA_IRQHandler((spi1Dma->getHandler())->hdmatx);
-}
-
-//------------------------------------------------------------------------------------
-void DMA2_Channel1_IRQHandler(void){
-  HAL_DMA_IRQHandler((spi3Dma->getHandler())->hdmarx);
-}
-
-
-//------------------------------------------------------------------------------------
-void DMA2_Channel2_IRQHandler(void){
-  HAL_DMA_IRQHandler((spi3Dma->getHandler())->hdmatx);
-}
-
-//------------------------------------------------------------------------------------
 /** Callback de interrupción dma_transmit_complete */
 void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi){
-    if(spi1Dma->getHandler() == hspi){
+    if(DMA::spi1 == hspi){
         spi1Dma->dmaCpltIsrCb.call();
         return;
     }
-    if(spi3Dma->getHandler() == hspi){
+    if(DMA::spi3 == hspi){
         spi3Dma->dmaCpltIsrCb.call();
         return;
     }
@@ -63,11 +40,11 @@ void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi){
 //------------------------------------------------------------------------------------
 /** Callback de interrupción dma_receive_complete */
 void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi){
-    if(spi1Dma->getHandler() == hspi){
+    if(DMA::spi1 == hspi){
         spi1Dma->dmaCpltIsrCb.call();
         return;
     }
-    if(spi3Dma->getHandler() == hspi){
+    if(DMA::spi3 == hspi){
         spi3Dma->dmaCpltIsrCb.call();
         return;
     }
@@ -77,11 +54,11 @@ void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi){
 //------------------------------------------------------------------------------------
 /** Callback de interrupción dma_transmit_receive_complete */
 void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi){
-    if(spi1Dma->getHandler() == hspi){
+    if(DMA::spi1 == hspi){
         spi1Dma->dmaCpltIsrCb.call();
         return;
     }
-    if(spi3Dma->getHandler() == hspi){
+    if(DMA::spi3 == hspi){
         spi3Dma->dmaCpltIsrCb.call();
         return;
     }
@@ -91,11 +68,11 @@ void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi){
 //------------------------------------------------------------------------------------
 /** Callback de interrupción dma_transmit_halfcomplete */
 void HAL_SPI_TxHalfCpltCallback(SPI_HandleTypeDef *hspi){
-    if(spi1Dma->getHandler() == hspi){
+    if(DMA::spi1 == hspi){
         spi1Dma->dmaHalfIsrCb.call();
         return;
     }
-    if(spi3Dma->getHandler() == hspi){
+    if(DMA::spi3 == hspi){
         spi3Dma->dmaHalfIsrCb.call();
         return;
     }
@@ -105,11 +82,11 @@ void HAL_SPI_TxHalfCpltCallback(SPI_HandleTypeDef *hspi){
 //------------------------------------------------------------------------------------
 /** Callback de interrupción dma_receive_halfcomplete */
 void HAL_SPI_RxHalfCpltCallback(SPI_HandleTypeDef *hspi){
-    if(spi1Dma->getHandler() == hspi){
+    if(DMA::spi1 == hspi){
         spi1Dma->dmaHalfIsrCb.call();
         return;
     }
-    if(spi3Dma->getHandler() == hspi){
+    if(DMA::spi3 == hspi){
         spi3Dma->dmaHalfIsrCb.call();
         return;
     }
@@ -119,11 +96,11 @@ void HAL_SPI_RxHalfCpltCallback(SPI_HandleTypeDef *hspi){
 //------------------------------------------------------------------------------------
 /** Callback de interrupción dma_transmit_receive_halfcomplete */
 void HAL_SPI_TxRxHalfCpltCallback(SPI_HandleTypeDef *hspi){
-    if(spi1Dma->getHandler() == hspi){
+    if(DMA::spi1 == hspi){
         spi1Dma->dmaHalfIsrCb.call();
         return;
     }
-    if(spi3Dma->getHandler() == hspi){
+    if(DMA::spi3 == hspi){
         spi3Dma->dmaHalfIsrCb.call();
         return;
     }
@@ -133,12 +110,12 @@ void HAL_SPI_TxRxHalfCpltCallback(SPI_HandleTypeDef *hspi){
 //------------------------------------------------------------------------------------
 /** Callback de interrupción dma_error */
 void HAL_SPI_ErrorCallback(SPI_HandleTypeDef *hspi){
-    if(spi1Dma->getHandler() == hspi){
-        spi1Dma->dmaErrIsrCb.call(SpiDmaInterface::TRANSFER_ERROR);
+    if(DMA::spi1 == hspi){
+        spi1Dma->dmaErrIsrCb.call(DMA_SPI::TRANSFER_ERROR);
         return;
     }
-    if(spi3Dma->getHandler() == hspi){
-        spi3Dma->dmaErrIsrCb.call(SpiDmaInterface::TRANSFER_ERROR);
+    if(DMA::spi3 == hspi){
+        spi3Dma->dmaErrIsrCb.call(DMA_SPI::TRANSFER_ERROR);
         return;
     }
 }
@@ -147,12 +124,12 @@ void HAL_SPI_ErrorCallback(SPI_HandleTypeDef *hspi){
 //------------------------------------------------------------------------------------
 /** Callback de interrupción dma_abort */
 void HAL_SPI_AbortCpltCallback(SPI_HandleTypeDef *hspi){
-    if(spi1Dma->getHandler() == hspi){
-        spi1Dma->dmaErrIsrCb.call(SpiDmaInterface::ABORT_ERROR);
+    if(DMA::spi1 == hspi){
+        spi1Dma->dmaErrIsrCb.call(DMA_SPI::ABORT_ERROR);
         return;
     }
-    if(spi3Dma->getHandler() == hspi){
-        spi3Dma->dmaErrIsrCb.call(SpiDmaInterface::ABORT_ERROR);
+    if(DMA::spi3 == hspi){
+        spi3Dma->dmaErrIsrCb.call(DMA_SPI::ABORT_ERROR);
         return;
     }
 }
@@ -165,10 +142,11 @@ void HAL_SPI_AbortCpltCallback(SPI_HandleTypeDef *hspi){
 
 
 //------------------------------------------------------------------------------------
-SpiDmaInterface::SpiDmaInterface(int hz, PinName mosi, PinName miso, PinName sclk, PinName ssel) : SPI(mosi, miso, sclk, ssel){
+DMA_SPI::DMA_SPI(int hz, PinName mosi, PinName miso, PinName sclk, PinName ssel) : SPI(mosi, miso, sclk, ssel){
     SPI::frequency(hz);
     _handle = &_spi.spi.handle;
     if(_handle->Instance == SPI1){
+        DMA::spi1 = _handle;
         spi1Dma = this;
         // Activo clock DMA1
         __HAL_RCC_DMA1_CLK_ENABLE();
@@ -214,6 +192,7 @@ SpiDmaInterface::SpiDmaInterface(int hz, PinName mosi, PinName miso, PinName scl
         HAL_NVIC_EnableIRQ(DMA1_Channel2_IRQn);            
     }
     else if(_handle->Instance == SPI3){
+        DMA::spi3 = _handle;
         spi3Dma = this;
         // Activo clock DMA2
         __HAL_RCC_DMA2_CLK_ENABLE();
@@ -260,7 +239,7 @@ SpiDmaInterface::SpiDmaInterface(int hz, PinName mosi, PinName miso, PinName scl
 
 
 //------------------------------------------------------------------------------------
-void SpiDmaInterface::transmit(uint8_t* txbuf, uint16_t bufsize, Callback<void()>& xdmaHalfIsrCb, 
+void DMA_SPI::transmit(uint8_t* txbuf, uint16_t bufsize, Callback<void()>& xdmaHalfIsrCb, 
                                 Callback<void()>& xdmaCpltIsrCb, Callback<void(ErrorResult)>& xdmaErrIsrCb){
     HAL_StatusTypeDef err = HAL_OK;
     dmaHalfIsrCb = xdmaHalfIsrCb;
@@ -273,7 +252,7 @@ void SpiDmaInterface::transmit(uint8_t* txbuf, uint16_t bufsize, Callback<void()
 
 
 //------------------------------------------------------------------------------------
-void SpiDmaInterface::receive(uint8_t* rxbuf, uint16_t bufsize, Callback<void()>& xdmaHalfIsrCb, 
+void DMA_SPI::receive(uint8_t* rxbuf, uint16_t bufsize, Callback<void()>& xdmaHalfIsrCb, 
                                 Callback<void()>& xdmaCpltIsrCb, Callback<void(ErrorResult)>& xdmaErrIsrCb){
     HAL_StatusTypeDef err = HAL_OK;
     dmaHalfIsrCb = xdmaHalfIsrCb;
@@ -286,7 +265,7 @@ void SpiDmaInterface::receive(uint8_t* rxbuf, uint16_t bufsize, Callback<void()>
 
 
 //------------------------------------------------------------------------------------
-void SpiDmaInterface::transmitAndReceive(uint8_t* txbuf, uint8_t* rxbuf, uint16_t bufsize, 
+void DMA_SPI::transmitAndReceive(uint8_t* txbuf, uint8_t* rxbuf, uint16_t bufsize, 
                 Callback<void()>& xdmaHalfIsrCb, Callback<void()>& xdmaCpltIsrCb, Callback<void(ErrorResult)>& xdmaErrIsrCb){
                     
     HAL_StatusTypeDef err = HAL_OK;

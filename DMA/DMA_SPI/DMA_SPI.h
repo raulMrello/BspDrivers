@@ -1,10 +1,10 @@
 /*
- * SpiDmaInterface.h
+ * DMA_SPI.h
  *
  *  Created on: Oct 2017
  *      Author: raulMrello
  *
- *  SpiDmaInterface es un módulo C++ que proporciona un mecanismo de transmisión/recepción SPI utilizando los
+ *  DMA_SPI es un módulo C++ que proporciona un mecanismo de transmisión/recepción SPI utilizando los
  *  canales DMA asociados para enviar y/o recibir datos desde un buffer de memoria.
  *  Se pueden realizar operaciones de envío, de recepción o de envío+recepción.
  *  La notificación de eventos se delega a callbacks dedicadas: dmaHalfIsrCb, dmaCpltIsrCb y dmaErrIsrCb que
@@ -21,17 +21,18 @@
  
 #include "mbed.h"
 #include "spi_api.h"
-#include "stm32l4xx_hal_def.h" 
-#include "stm32l4xx_hal_dma.h"    
+//#include "stm32l4xx_hal_def.h" 
+//#include "stm32l4xx_hal_dma.h"    
+#include "DMA.h"
 
 
 
 //------------------------------------------------------------------------------------
-//- CLASS SpiDmaInterface ------------------------------------------------------------
+//- CLASS DMA_SPI ------------------------------------------------------------
 //------------------------------------------------------------------------------------
 
 
-class SpiDmaInterface : public SPI {
+class DMA_SPI : public SPI, public DMA {
   public:
 
     enum ErrorResult{
@@ -43,7 +44,7 @@ class SpiDmaInterface : public SPI {
         ABORT_ERROR,
     };
 	
-    /** @fn SpiDmaInterface()
+    /** @fn DMA_SPI()
      *  @brief Constructor, que asocia un manejador SPI (SPI_x)
      *  @param hz Velocidad bus spi
      *  @param mosi SPI Master Out, Slave In pin
@@ -51,13 +52,13 @@ class SpiDmaInterface : public SPI {
      *  @param sclk SPI Clock pin
      *  @param ssel SPI chip select pin
      */
-    SpiDmaInterface(int hz, PinName mosi, PinName miso, PinName sclk, PinName ssel=NC);
+    DMA_SPI(int hz, PinName mosi, PinName miso, PinName sclk, PinName ssel=NC);
 
 	
-    /** @fn ~SpiDmaInterface()
+    /** @fn ~DMA_SPI()
      *  @brief Destructor por defecto
      */
-    virtual ~SpiDmaInterface(){}
+    virtual ~DMA_SPI(){}
 
 	
     /** @fn transmit()
@@ -112,30 +113,9 @@ class SpiDmaInterface : public SPI {
     SPI_HandleTypeDef* _handle;
     DMA_HandleTypeDef _hdma_tx;
     DMA_HandleTypeDef _hdma_rx;
+  
 };    
 
 
 
-
-//------------------------------------------------------------------------------------
-//- DMA ISR's ------------------------------------------------------------------------
-//------------------------------------------------------------------------------------
-
-
-/** Manejadores de interrupción para los canales DMA asociados a los interfaces SPI (SPI1 y SPI3)*/
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-void DMA1_Channel3_IRQHandler(void);
-void DMA1_Channel2_IRQHandler(void);
-void DMA2_Channel2_IRQHandler(void);
-void DMA2_Channel1_IRQHandler(void);
-    
-#ifdef __cplusplus
-}
-#endif
-
-
-#endif   /* SPIDMAINTERFACE_H */
+#endif   /* DMA_SPI_H */
