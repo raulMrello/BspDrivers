@@ -8,6 +8,12 @@ hardware que suelen encontrarse en cualquier BSP tales como: leds, pulsadores, r
 ## Changelog
 
 ----------------------------------------------------------------------------------------------
+##### 30.10.2017 ->commit:"Incluyo driver WS281xLedStrip con funcionalidad mínima"
+- [x] Incluyo el driver para la tira de leds direccionables.
+- [x] Corrijo error en driver DMA_PwmOut, elimiando el RepetitionCounter del TIMx
+	  El módulo se ha verificado en la tarjeta NUCLEO_L432KC
+
+----------------------------------------------------------------------------------------------
 ##### 30.10.2017 ->commit:"Incluyo drivers DMA"
 - [x] Incluyo el directorio DMA para añadir diversos drivers que hacen uso de capacidades DMA.
 	  Por el momento añado los drivers DMA_SPI y DMA_PwmOut.

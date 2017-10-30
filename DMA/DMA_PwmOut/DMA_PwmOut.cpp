@@ -207,7 +207,7 @@ DMA_PwmOut::DMA_PwmOut(PinName pin, uint32_t hz){
         }
     }
     do{
-        _handle.Init.RepetitionCounter  = 1;
+        _handle.Init.RepetitionCounter  = 0;
         _handle.Init.Prescaler          = 0; 
         _handle.Init.Period             = (uint32_t)((SystemCoreClock / hz) - 1);
         _handle.Init.ClockDivision      = 0;
