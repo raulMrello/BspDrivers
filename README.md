@@ -8,6 +8,10 @@ hardware que suelen encontrarse en cualquier BSP tales como: leds, pulsadores, r
 ## Changelog
 
 ----------------------------------------------------------------------------------------------
+##### 02.11.2017 ->commit:"Incluyo driver MPR121 12-ch touchcap"
+- [x] Incluyo el driver para el sensor capacitivo de 12 canales MPR121
+
+----------------------------------------------------------------------------------------------
 ##### 31.10.2017 ->commit:"Incluyo driver PCA9685 servo 16-ch"
 - [x] Incluyo el driver para el servo-driver de 16-ch aunque falta verificar funcionamiento.
 	  El módulo se ha verificado en la tarjeta NUCLEO_L432KC

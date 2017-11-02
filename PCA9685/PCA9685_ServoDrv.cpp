@@ -1,5 +1,5 @@
 /*
- * PCA9685.cpp
+ * PCA9685_ServoDrv.cpp
  *
  *  Created on: Oct 2017
  *      Author: raulMrello
@@ -10,7 +10,7 @@
 
 
 //------------------------------------------------------------------------------------
-//- REGISTROS CHIP PCS9685 -----------------------------------------------------------
+//- REGISTROS CHIP PCA9685 -----------------------------------------------------------
 //------------------------------------------------------------------------------------
 
 #define PCA9685_FIXED_ADDRESS       0x80
@@ -190,7 +190,7 @@ PCA9685_ServoDrv::PCA9685_ServoDrv(PinName sda, PinName scl, uint8_t numServos, 
     }
  
     // set normal mode
-    // initialize driver: enable auto-increment, normal mode and invert output (no driver required)
+    // initialize driver: enable auto-increment, normal mode and totem-pole output (no driver required)
     if(_i2c->write(_addr, (const char*)INIT_CONFIG, sizeof(INIT_CONFIG)) != 0){
         _stat = PresentWithErrors;        
         return;
