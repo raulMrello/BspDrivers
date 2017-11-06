@@ -22,6 +22,8 @@
    
 class Relay{
   public:
+    /** Tiempo en ms por defecto, que durará la activación a máxima corriente antes de bajar a corriente de mantenimiento */
+    static const uint32_t DefaultMaxCurrentTime = 100;
         
     /** Configuración del nivel lógico de activación del relé */
 	enum RelayLogicLevel{
@@ -29,45 +31,38 @@ class Relay{
 		OnIsHighLevel       /// El relé se activa con una salida a nivel alto
 	};
     
-    /** Tipos de acciones que se pueden solicitar a un relé */
-    enum RelayAction{
-        RelayTurnOff,       /// Apagar relé
-        RelayTurnOn,        /// Encender relé
-        ActionCompleted,    /// Acción completada (puede ser TurnOff o TurnOn previo)
-        NoActions,          /// No hay acciones a realizar
-    };
-		
     /** Tipo de estado en el que se puede encontrar un relé */
     enum RelayStat{
         RelayIsOff,         /// Desactivado 
-        RelayIsOn,          /// Activado
+        RelayIsOn,          /// Activado        
     };
-    
-    /** Estructura de datos de propósito general para proporcionar información sobre un relé */
-    struct RelayInfo{
-        uint32_t id;        /// Identificador del relé
-        RelayStat stat;     /// Estado actual del relé (Off,On)
-        RelayAction action; /// Acciones solicitadas al relé
-    };
-    
+        
 	/** Constructor
      *  Durante la construcción del objeto, se asignan los pines de control (1 o 2), la lógica de activación, y
      *  el tiempo que debe proporcionarse la corriente de pico antes de bajar a la corriente de mantenimiento, en 
      *  el caso de utilizar una configuración de doble nivel.
+     *  @param id Identificador del relé
      *  @param gpio_high GPIO conectado al canal de máxima corriente
      *  @param gpio_low GPIO conectado al canal de corriente de mantenimiento. Si no se utiliza dejar valor
      *          NC por defecto (NC=not connected)
      *  @param level Nivel de activación lógico 
-     *  @param us_high_time Tiempo en microsegundos de activación a máxima intensidad (en caso de uso de doble nivel)
+     *  @param time_lowcurr_us Tiempo para bajar a doble nivel en us
      */
-    Relay(PinName gpio_high, PinName gpio_low = NC, RelayLogicLevel level = OnIsHighLevel, uint32_t us_high_time = DefaultHighCurrentTimeout_us);
-    ~Relay();
+    Relay(uint32_t id, PinName gpio_high, PinName gpio_low = NC, RelayLogicLevel level = OnIsHighLevel, uint32_t time_lowcurr_us = (1000 * DefaultMaxCurrentTime));
+    ~Relay(){}
   
   
-	/** turnOn
-     *  Inicia el encendido del relé. 
+	/** turnOnHigh
+     *  Inicia el encendido del relé a máxima potencia. Instala callback para notificar cuando debe pasar a doble nivel
+     *  @param turnLowCb Callback a notificar cuando deba bajar a doble nivel, indicando el _id del relé.
      */
-    void turnOn();
+    void turnOnHigh(Callback<void(uint32_t)> *turnLowCb);
+  
+    
+	/** turnOnLow
+     *  Mantiene el relé activado con corriente de mantenimiento
+     */
+    void turnOnLow();
   
   
 	/** turnOff
@@ -81,32 +76,29 @@ class Relay{
      *  @return RelayStat
      */
     RelayStat getState(){ return _stat; }   
-    
+  
+  
+	/** getId
+     *  Obtiene el identificador del relé
+     *  @return Identificador
+     */
+    uint32_t getId(){ return _id; }       
              
-  protected:
-    static const uint32_t DefaultHighCurrentTimeout_us = 100000;    /// Tiempo de corriente de pico por defecto (100ms)
-    
-    /** Configuración del tipo de control, en función de los pines gpio cargados en el constructor */
-    enum RelaySetup{
-        RelayIsSingleLevel,     /// Configuración de un único nivel (siempre activa con corriente de pico)
-        RelayIsDoubleLevel,     /// Configuración a doble nivel (corriente de pico y luego de mantenimiento)
-    };
-    
+  protected:    
+    uint32_t _id;               /// Identificador del relé
+    uint32_t _delay_lowcurr_us; /// Retado para el doble nivel en us
     DigitalOut* _out_high;      /// Salida de alta corriente
     DigitalOut* _out_low;       /// Salida de corriente de mantenimiento
     RelayLogicLevel _level;     /// Nivel de activación lógico
-    Ticker _tick;               /// Timer para la duración de la activación con corriente de pico
     RelayStat _stat;            /// Estado de ejecución (Off, On)
-    RelaySetup _config;         /// Configuración (single, double)
-    uint32_t _us_high_time;     /// Tiempo de corriente de pico
-
-
-	/** highTimeCb
-     *  Callback a invocar cuando finalice el tiempo de corriente de pico y haya que bajara corriente de mantenimiento
-     */
-    void highTimeCb();
-
+    Ticker _tick_lowcurr;       /// Temporizador para el doble nivel de corriente
+    Callback<void(uint32_t)> *_turnLowCb;    /// Callback para notificar paso a bajo nivel
   
+  
+	/** isrTicker
+     *  Rutina de interrupción del ticker asociado a la bajada a doble nivel
+     */
+    void isrTicker();  
 };
      
 

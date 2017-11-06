@@ -8,6 +8,10 @@ hardware que suelen encontrarse en cualquier BSP tales como: leds, pulsadores, r
 ## Changelog
 
 ----------------------------------------------------------------------------------------------
+##### 06.11.2017 ->commit:"Actualizo Relay"
+- [x] Actualizo Relay con funcionalidad simplificada. FALTA VERIFICAR FUNCIONAMIENTO. 
+	
+----------------------------------------------------------------------------------------------
 ##### 02.11.2017 ->commit:"Incluyo driver MPR121 12-ch touchcap"
 - [x] Incluyo el driver para el sensor capacitivo de 12 canales MPR121
 
