@@ -8,6 +8,14 @@ hardware que suelen encontrarse en cualquier BSP tales como: leds, pulsadores, r
 ## Changelog
 
 ----------------------------------------------------------------------------------------------
+##### 06.11.2017 ->commit:"Actualizo SerialTerminal"
+- [x] Actualizo SerialTerminal con la siguiente funcionalidad probada OK!
+	* Añado modo BreakTime para notificar trama recibida tras un tiempo de break desde el último
+	  byte recibido. Se cambia el servicio <config> parámetro <millis> a <us_timeout>.
+	* Modifico <send> para activar el transmisior por interrupciones y su isr para detenerlo.
+	  
+	
+----------------------------------------------------------------------------------------------
 ##### 06.11.2017 ->commit:"Actualizo Relay"
 - [x] Actualizo Relay con funcionalidad simplificada. FALTA VERIFICAR FUNCIONAMIENTO. 
 	
