@@ -8,6 +8,17 @@ hardware que suelen encontrarse en cualquier BSP tales como: leds, pulsadores, r
 ## Changelog
 
 ----------------------------------------------------------------------------------------------
+##### 08.11.2017 ->commit:"Corrijo bugs en PCA9685"
+- [x] Depuro funcionamiento del test. FALTA DEFINIR TRAYECTORIA
+- [x] Corrijo velocidad del bus i2c y subo a 1MHz
+- [x] Añado funcionalidad para obtener un duty a partir de un ángulo.
+- [x] Corrijo test para actualizar los servos fuera de contexto ISR.
+- [ ] Sería recomendable guardar una trayectoria en memoria de forma que 
+	  pudiera ser cargada a la DMA del I2C para no consumir recursos en un
+	  movimiento constante y repetitivo.
+	  
+	
+----------------------------------------------------------------------------------------------
 ##### 08.11.2017 ->commit:"Incluyo módulo de test en driver PCA9685"
 - [x] Incluyo módulo de test para dicho driver
 	  
