@@ -8,6 +8,11 @@ hardware que suelen encontrarse en cualquier BSP tales como: leds, pulsadores, r
 ## Changelog
 
 ----------------------------------------------------------------------------------------------
+##### 08.11.2017 ->commit:"Incluyo módulo de test en driver PCA9685"
+- [x] Incluyo módulo de test para dicho driver
+	  
+	
+----------------------------------------------------------------------------------------------
 ##### 06.11.2017 ->commit:"Actualizo SerialTerminal"
 - [x] Actualizo SerialTerminal con la siguiente funcionalidad probada OK!
 	* Añado modo BreakTime para notificar trama recibida tras un tiempo de break desde el último
