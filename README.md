@@ -8,6 +8,12 @@ hardware que suelen encontrarse en cualquier BSP tales como: leds, pulsadores, r
 ## Changelog
 
 ----------------------------------------------------------------------------------------------
+##### 13.11.2017 ->commit:"Actualizo driver PCA9685"
+- [x] Utilizo manager ServoManager para la gestión de trayectorias repetitivas.
+	  
+	  
+	
+----------------------------------------------------------------------------------------------
 ##### 08.11.2017 ->commit:"Corrijo bugs en PCA9685"
 - [x] Depuro funcionamiento del test. FALTA DEFINIR TRAYECTORIA
 - [x] Corrijo velocidad del bus i2c y subo a 1MHz
