@@ -8,6 +8,12 @@ hardware que suelen encontrarse en cualquier BSP tales como: leds, pulsadores, r
 ## Changelog
 
 ----------------------------------------------------------------------------------------------
+##### 13.11.2017 ->commit:"Driver PCA9685 con funciones mejoradas"
+- [x] Permite ajustar rangos y leer duty del chip.
+	  
+	  
+	
+----------------------------------------------------------------------------------------------
 ##### 13.11.2017 ->commit:"Actualizo driver PCA9685"
 - [x] Utilizo manager ServoManager para la gestión de trayectorias repetitivas.
 	  
