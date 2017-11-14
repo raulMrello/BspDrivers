@@ -8,7 +8,14 @@ hardware que suelen encontrarse en cualquier BSP tales como: leds, pulsadores, r
 ## Changelog
 
 ----------------------------------------------------------------------------------------------
-##### 13.11.2017 ->commit:"Driver PCA9685 con funciones mejoradas"
+##### 14.11.2017 ->commit:"Incluyo NVFlash"
+- [x] Incluyo NVFlash
+- [x] Añado al driver PCA9685 la opción de devolver los rangos.
+	  
+	  
+	
+----------------------------------------------------------------------------------------------
+##### 14.11.2017 ->commit:"Driver PCA9685 con funciones mejoradas"
 - [x] Permite ajustar rangos y leer duty del chip.
 	  
 	  
