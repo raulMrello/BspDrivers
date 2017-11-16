@@ -8,6 +8,12 @@ hardware que suelen encontrarse en cualquier BSP tales como: leds, pulsadores, r
 ## Changelog
 
 ----------------------------------------------------------------------------------------------
+##### 14.11.2017 ->commit:"Actualizo driver HCSR04"
+- [x] Actualizo driver tras pruebas funcionales terminadas.
+	  
+	  
+	
+----------------------------------------------------------------------------------------------
 ##### 14.11.2017 ->commit:"Incluyo NVFlash"
 - [x] Incluyo NVFlash
 - [x] Añado al driver PCA9685 la opción de devolver los rangos.
