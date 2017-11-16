@@ -8,7 +8,13 @@ hardware que suelen encontrarse en cualquier BSP tales como: leds, pulsadores, r
 ## Changelog
 
 ----------------------------------------------------------------------------------------------
-##### 14.11.2017 ->commit:"Actualizo driver HCSR04"
+##### 16.11.2017 ->commit:"Actualizo driver MPR121"
+- [x] Actualizo driver tras pruebas funcionales terminadas.
+	  
+	  
+	
+----------------------------------------------------------------------------------------------
+##### 16.11.2017 ->commit:"Actualizo driver HCSR04"
 - [x] Actualizo driver tras pruebas funcionales terminadas.
 	  
 	  
