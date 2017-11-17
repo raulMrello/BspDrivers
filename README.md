@@ -8,6 +8,12 @@ hardware que suelen encontrarse en cualquier BSP tales como: leds, pulsadores, r
 ## Changelog
 
 ----------------------------------------------------------------------------------------------
+##### 17.11.2017 ->commit:"Corrijo cálculo del buffer en driver WS281xLedStrip"
+- [x] Corrijo bug en cálculo de buffer. VERIFICANDO FUNCIONAMIENTO
+	  
+	  
+	
+----------------------------------------------------------------------------------------------
 ##### 17.11.2017 ->commit:"Actualizo driver WS281xLedStrip con test"
 - [x] Actualizo driver con archivo de test. VERIFICANDO FUNCIONAMIENTO
 	  
