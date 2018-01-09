@@ -1,6 +1,5 @@
 #include "mbed.h"
 #include "MQLib.h"
-#include "MQSerialBridge.h"
 #include "Logger.h"
 #include "WS281xLedStrip.h"
 
@@ -11,15 +10,13 @@
 
 
 /** Macro de impresión de trazas de depuración */
-#define DEBUG_TRACE(format, ...)    if(logger){Thread::wait(10); logger->printf(format, ##__VA_ARGS__);}
+#define DEBUG_TRACE(format, ...)    if(logger){logger->printf(format, ##__VA_ARGS__);}
 
 
 // **************************************************************************
 // *********** OBJETOS  *****************************************************
 // **************************************************************************
 
-/** Canal de comunicación remota */
-static MQSerialBridge* qserial;
 /** Canal de depuración */
 static Logger* logger;
 /** Driver control detector */
@@ -40,14 +37,8 @@ void test_WS281x(){
             
     // --------------------------------------
     // Inicia el canal de comunicación remota
-    //  - Pines USBTX, USBRX a 115200bps y 256 bytes para buffers
-    //  - Configurado por defecto en modo texto
-    qserial = new MQSerialBridge(USBTX, USBRX, 115200, 256);
-    
-
-    // --------------------------------------
-    // Inicia el canal de depuración (compartiendo salida remota)
-    logger = (Logger*)qserial;    
+    //  - Pines USBTX, USBRX a 115200bps 
+    logger = new Logger(USBTX, USBRX, 16, 115200);
     DEBUG_TRACE("\r\nIniciando test_WS281x...\r\n");
 
 
@@ -56,7 +47,7 @@ void test_WS281x(){
     //  - Dirección I2C = 0h
     //  - Número de servos controlables = 12 (0 al 11)    
     DEBUG_TRACE("\r\nCreando Driver WS281x...");    
-    leddrv = new WS281xLedStrip(PA_10, 800000, 3);
+    leddrv = new WS281xLedStrip(PA_8, 800000, 3);
         
     // situo todos a 0º y doy la orden sincronizada
     DEBUG_TRACE("\r\nAjustando colores rojo, verde, azul... ");
@@ -72,18 +63,18 @@ void test_WS281x(){
     leddrv->start();
     for(;;){
         // espero 5 segundos
-//        Thread::wait(5000);
-//        DEBUG_TRACE("\r\nCambio a verde... ");
-//        color.red = 0; color.green = 255; color.blue = 0;
-//        leddrv->setRange(0, 3, color);
-//        Thread::wait(5000);
-//        DEBUG_TRACE("\r\nCambio a azul... ");
-//        color.red = 0; color.green = 0; color.blue = 255;
-//        leddrv->setRange(0, 3, color);
-//        Thread::wait(5000);
-//        DEBUG_TRACE("\r\nCambio a rojo... ");
-//        color.red = 255; color.green = 0; color.blue = 0;     
-//        leddrv->setRange(0, 3, color);        
+        Thread::wait(5000);
+        DEBUG_TRACE("\r\nCambio a verde mínimo... ");
+        color.red = 0; color.green = 1; color.blue = 0;
+        leddrv->setRange(0, 3, color);
+        Thread::wait(5000);
+        DEBUG_TRACE("\r\nCambio a azul cuarto... ");
+        color.red = 0; color.green = 0; color.blue = 64;
+        leddrv->setRange(0, 3, color);
+        Thread::wait(5000);
+        DEBUG_TRACE("\r\nCambio a rojo medio... ");
+        color.red = 128; color.green = 0; color.blue = 0;     
+        leddrv->setRange(0, 3, color);        
     }    
 }
 
