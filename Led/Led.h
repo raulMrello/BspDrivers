@@ -12,10 +12,7 @@
 #ifndef __Led__H
 #define __Led__H
 
-#if __MBED__ == 1
 #include "mbed.h"
-#endif
-#include "Logger.h"
 
    
 class Led{
@@ -87,10 +84,10 @@ class Led{
      *  Instala canal de depuración
      *  @param dbg Logger
      */
-    void setDebugChannel(Logger* dbg) { _debug = dbg; } 
+    void setDebugChannel(bool dbg) { _debug = dbg; }
  
          
-  protected:
+  private:
     enum LedStat{
         LedIsOff,        
         LedIsOn,
@@ -124,7 +121,7 @@ class Led{
     uint32_t _ms_duration;                                  /// Milisegundos del estado temporal
     LedStat _bkp_stat;                                      /// Estado backup en modo temporal
     bool _istemp;                                           /// Flag para indicar si el modo temporal está activo
-    Logger* _debug;                                         /// Canal de depuración
+    bool  _debug;                                           /// Canal de depuración
   
     
 	/** rampOffCb

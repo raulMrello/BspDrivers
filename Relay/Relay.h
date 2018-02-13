@@ -15,9 +15,7 @@
 #ifndef __Relay__H
 #define __Relay__H
 
-#if __MBED__ == 1
 #include "mbed.h"
-#endif
 
    
 class Relay{
@@ -56,7 +54,7 @@ class Relay{
      *  Inicia el encendido del relé a máxima potencia. Instala callback para notificar cuando debe pasar a doble nivel
      *  @param turnLowCb Callback a notificar cuando deba bajar a doble nivel, indicando el _id del relé.
      */
-    void turnOnHigh(Callback<void(uint32_t)> *turnLowCb);
+    void turnOnHigh(Callback<void(uint32_t)> *turnLowCb = NULL);
   
     
 	/** turnOnLow
@@ -84,7 +82,8 @@ class Relay{
      */
     uint32_t getId(){ return _id; }       
              
-  protected:    
+  private:
+
     uint32_t _id;               /// Identificador del relé
     uint32_t _delay_lowcurr_us; /// Retado para el doble nivel en us
     DigitalOut* _out_high;      /// Salida de alta corriente

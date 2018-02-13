@@ -8,6 +8,12 @@ hardware que suelen encontrarse en cualquier BSP tales como: leds, pulsadores, r
 ## Changelog
 
 ----------------------------------------------------------------------------------------------
+##### 13.02.2018 ->commit:"Actualizo varios módulos compatibles con MBED y ESP-IDF"
+- [x] Actualización
+	  
+	  
+	
+----------------------------------------------------------------------------------------------
 ##### 09.01.2018 ->commit:"Actualizo cambios en mbed-l432"
 - [x] Actualización
 	  

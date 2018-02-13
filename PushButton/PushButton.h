@@ -14,12 +14,10 @@
 #ifndef __PushButton__H
 #define __PushButton__H
 
-#if __MBED__ == 1
 #include "mbed.h"
-#endif
 
    
-class PushButton{
+class PushButton {
   public:
     
     enum LogicLevel{
@@ -28,7 +26,7 @@ class PushButton{
     };
     
 	/** Constructor y Destructor por defecto */
-    PushButton(PinName btn, uint32_t id, LogicLevel level);
+    PushButton(PinName btn, uint32_t id, LogicLevel level, PinMode mode, bool defdbg = false);
     ~PushButton();
   
   
@@ -69,23 +67,32 @@ class PushButton{
      */
     void disableReleaseEvents();
          
-  protected:
+  private:
+
     static const uint32_t GlitchFilterTimeoutUs = 20000;    /// Por defecto 20ms de timeout antiglitch desde el cambio de nivel
-  
+    InterruptIn* _iin;						/// InterruptIn asociada
     LogicLevel _level;                      /// Nivel lógico
-    InterruptIn* _iibtn;                    /// Entrada de interrupción asociada al GPIO
     Callback<void(uint32_t)> _pressCb;      /// Callback para notificar eventos de pulsación
     Callback<void(uint32_t)> _holdCb;       /// Callback para notificar eventos de mantenimiento
     Callback<void(uint32_t)> _releaseCb;    /// Callback para notificar eventos de liberación
-    Ticker _tick;                           /// Timer para la notificación de eventos de mantenimiento  
-    bool _enable_ticker;                    /// Habilita funcionamiento del ticker
+    Ticker _tick;                           /// Timer para la notificación de eventos de mantenimiento
+    RtosTimer* _tick_filt;
+    RtosTimer* _tick_hold;
+	bool _enable_ticker;                    /// Habilita funcionamiento del ticker
     uint32_t _hold_us;                      /// Microsegundos entre eventos hold
     uint32_t _id;                           /// Identificador del pulsador
-    
-	/** isrRiseFallCallback
+    bool _defdbg;							/// Flag para activar las trazas de depuración por defecto
+    uint8_t _curr_value;					/// Valor recien leído del InterruptIn
+
+	/** isrRiseCallback
      *  ISR para procesar eventos de cambio de nivel
      */
-    void isrRiseFallCallback();
+    void isrRiseCallback();
+    
+	/** isrFallCallback
+     *  ISR para procesar eventos de cambio de nivel
+     */
+    void isrFallCallback();
   
 	/** isrFilterCallback
      *  ISR para procesar eventos de temporización tras filtrado de glitches en cambios de nivel
@@ -96,6 +103,11 @@ class PushButton{
      *  ISR para procesar eventos de temporización
      */
     void isrTickCallback();
+
+	/** enableRiseFallCallbacks
+     *  Ajsuta las callbacks en función del nivel lógico actual
+     */
+    void enableRiseFallCallbacks();
   
 };
      

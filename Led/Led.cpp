@@ -13,7 +13,7 @@
 //--- PRIVATE TYPES ------------------------------------------------------------------
 //------------------------------------------------------------------------------------
 
-#define DEBUG_TRACE(format, ...)    if(_debug){_debug->printf(format, ##__VA_ARGS__);}
+#define DEBUG_TRACE(format, ...)    if(_debug){printf(format, ##__VA_ARGS__);}
 #define NULL_CALLBACK               (void(*)())0
  
 //------------------------------------------------------------------------------------
@@ -25,7 +25,7 @@
 Led::Led(PinName led, LedType type, LedLogicLevel level, uint32_t period_ms){
     // Crea objeto
     _id = (uint32_t)led;
-    _debug = 0;
+    _debug = false;
     _type = type;
     _period_ms = period_ms;
     _max_intensity = 1.0f;

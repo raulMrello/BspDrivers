@@ -12,9 +12,7 @@
 #ifndef __Zerocross__H
 #define __Zerocross__H
 
-#if __MBED__ == 1
 #include "mbed.h"
-#endif
 
    
 class Zerocross{

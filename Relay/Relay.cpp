@@ -82,5 +82,7 @@ void Relay::turnOff(){
 //------------------------------------------------------------------------------------
 void Relay::isrTicker(){ 
     _tick_lowcurr.detach();
-    _turnLowCb->call(_id);
+    if(_turnLowCb){
+    	_turnLowCb->call(_id);
+    }
 }
